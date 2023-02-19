@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mis_lab_193049/widgets/add_button.dart';
 import 'model/ExamItem.dart';
 import 'widgets/new_exam_item.dart';
 
@@ -9,6 +11,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   // This widget is the root of your application.
   @override
@@ -49,6 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  Future<void> _signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print(e); // TODO: show dialog with error
+    }
+  }
+
   void _addNewExamItemToList(ExamItem examItem) {
     setState(() {
       _examItems.add(examItem);
@@ -87,7 +98,11 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () => _addExamItemFunction(context),
-          )
+          ),
+          AddButton(
+              'Logout',
+             _signOut
+          ),
         ]);
   }
   @override
